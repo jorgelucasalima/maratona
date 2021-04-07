@@ -3,9 +3,7 @@ const server = express();
 
 //request, response
 server.get('/', (request, response) => {
-    console.log('entrei no index')
-
-    return response.send('Oie')
+    return response.sendFile(__dirname + "/views/index.html")
 })
 
 
