@@ -9,7 +9,4 @@ routes.get('/job/edit', (request, response) => response.sendFile(basePath + '/jo
 routes.get('/profile', (request, response) => response.sendFile(basePath + '/profile.html'));
 
 
-
-
-
 module.exports = routes;
