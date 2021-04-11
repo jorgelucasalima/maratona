@@ -13,11 +13,21 @@ const profile = {
 
 }
 
+//array dos jobs, exemplo: req.body { name: 'estudar', 'daily-hours': '2', 'total-hours': '4' }
+const jobs = []
 
 //req, res
 routes.get('/', (req, res) => res.render(views + '/index'));
 routes.get('/job', (req, res) => res.render(views + '/job'));
-routes.post('/job', (req, res) => {console.log(req)});
+routes.post('/job', (req, res) => {
+    
+    const job = req.body
+    job.createdAt = Date.now() //atribuindo data
+    
+    
+    jobs.push(req.body)
+    return res.redirect('/')
+});
 routes.get('/job/edit', (req, res) => res.render(views + '/job-edit'));
 routes.get('/profile', (req, res) => res.render(views + '/profile', { profile }));
 
