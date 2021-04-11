@@ -17,6 +17,7 @@ const profile = {
 //req, res
 routes.get('/', (req, res) => res.render(views + '/index'));
 routes.get('/job', (req, res) => res.render(views + '/job'));
+routes.post('/job', (req, res) => {console.log(req)});
 routes.get('/job/edit', (req, res) => res.render(views + '/job-edit'));
 routes.get('/profile', (req, res) => res.render(views + '/profile', { profile }));
 
