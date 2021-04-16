@@ -33,11 +33,17 @@ const jobs = [
 
 //req, res
 routes.get('/', (req, res) => {
+    //calculo de tempo restante
+    const updateJobs = jobs.map((job) => {
+    
+        const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()
+        const createDate = new Date(job.created_at)
+        const dueDay = createDate.getDate() + Number(remainingDays)
+
+        return job
+    })
 
     
-
-//calculo de tempo restante
-
 
     return res.render(views + '/index', { jobs })
 
