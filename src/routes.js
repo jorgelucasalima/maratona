@@ -31,15 +31,29 @@ const jobs = [
     }
 ]
 
+
+function remainingDays(job) {
+    const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()
+        const createDate = new Date(job.created_at)
+        const dueDay = createDate.getDate() + Number(remainingDays)
+        const dueDateInMs = createDate.setDate(dueDate)
+        
+        const timeDiffInMs = dueDateInMs - Date.now()
+        //transformar milli-InMs em dias
+        const dayInMs = 1000 * 60 * 60 * 24
+        const dayDiff = math.floor(timeDiffInMs / dayInMs)
+
+        //restam x dias
+        return dayDiff
+}
+
+
 //req, res
 routes.get('/', (req, res) => {
     //calculo de tempo restante
     const updateJobs = jobs.map((job) => {
     
-        const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()
-        const createDate = new Date(job.created_at)
-        const dueDay = createDate.getDate() + Number(remainingDays)
-
+        
         return job
     })
 
