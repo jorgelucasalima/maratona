@@ -14,6 +14,29 @@ const profile = {
 
 }
 
+
+const job = {
+    controllers: {
+        index(req, res) {
+
+            const updateJobs = jobs.map((job) => {
+                const remaining = remainingDays(job)
+                const status = remaining <= 0 ? 'done' : 'progress'
+        
+                return {
+                    ...job,
+                    remaining,
+                    status,
+                    budget: profile["value-hours"] * job["total-hours"]
+                }
+            })
+   
+            return res.render(views + '/index', { jobs: updateJobs })
+        },
+    }
+}
+
+
 //array dos jobs, exemplo: req.body { name: 'estudar', 'daily-hours': '2', 'total-hours': '4' }
 const jobs = [
     {
@@ -50,25 +73,7 @@ function remainingDays(job) {
 
 
 //req, res
-routes.get('/', (req, res) => {
-    //calculo de tempo restante
-    const updateJobs = jobs.map((job) => {
-        const remaining = remainingDays(job)
-        const status = remaining <= 0 ? 'done' : 'progress'
-
-        return {
-            ...job,
-            remaining,
-            status,
-            budget: profile["value-hours"] * job["total-hours"]
-        }
-    })
-
-    
-
-    return res.render(views + '/index', { jobs: updateJobs })
-
-});
+routes.get('/', job.controllers.index);
 routes.get('/job', (req, res) => res.render(views + '/job'));
 routes.post('/job', (req, res) => {
     
