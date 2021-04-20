@@ -16,11 +16,30 @@ const profile = {
 
 
 const job = {
+
+    data: [
+        {
+            id: 1,
+            name: "Pizza Atlantico",
+            "daily-hours": 2,
+            "total-hours": 1,
+            created_at: Date.now(),
+        },
+        {
+            id: 2,
+            name: "Pizza do Gordo",
+            "daily-hours": 4,
+            "total-hours": 23,
+            created_at: Date.now(),
+        }
+
+    ],
+
     controllers: {
         index(req, res) {
 
-            const updateJobs = jobs.map((job) => {
-                const remaining = remainingDays(job)
+            const updateJobs = job.data.map((job) => {
+                const remaining = job.services.remainingDays(job)
                 const status = remaining <= 0 ? 'done' : 'progress'
         
                 return {
@@ -33,43 +52,29 @@ const job = {
    
             return res.render(views + '/index', { jobs: updateJobs })
         },
-    }
-}
-
-
-//array dos jobs, exemplo: req.body { name: 'estudar', 'daily-hours': '2', 'total-hours': '4' }
-const jobs = [
-    {
-        id: 1,
-        name: "Pizza Atlantico",
-        "daily-hours": 2,
-        "total-hours": 1,
-        created_at: Date.now()
     },
-    {
-        id: 2,
-        name: "Pizza do Gordo",
-        "daily-hours": 4,
-        "total-hours": 23,
-        created_at: Date.now()
-    }
-]
 
-
-function remainingDays(job) {
-    const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()
-        const createDate = new Date(job.created_at)
-        const dueDay = createDate.getDate() + Number(remainingDays)
-        const dueDateInMs = createDate.setDate(dueDay)
+    services: {
+        remainingDays(job) {
+            const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed()
+            const createDate = new Date(job.created_at)
+            const dueDay = createDate.getDate() + Number(remainingDays)
+            const dueDateInMs = createDate.setDate(dueDay)
+                
+            const timeDiffInMs = dueDateInMs - Date.now()
+                //transformar milli-InMs em dias
+            const dayInMs = 1000 * 60 * 60 * 24
+            const dayDiff = Math.floor(timeDiffInMs / dayInMs)
         
-        const timeDiffInMs = dueDateInMs - Date.now()
-        //transformar milli-InMs em dias
-        const dayInMs = 1000 * 60 * 60 * 24
-        const dayDiff = Math.floor(timeDiffInMs / dayInMs)
+                //restam x dias
+            return dayDiff
+        }
 
-        //restam x dias
-        return dayDiff
+    }
+
 }
+
+
 
 
 //req, res
